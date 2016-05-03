@@ -25,8 +25,8 @@ class InitialStateLogObject(Block):
     def configure(self, context):
         super().configure(context)
         try:
-            self._streamer = Streamer(bucket=self.bucket,
-                                      client_key=self.client_key,
+            self._streamer = Streamer(bucket_name=self.bucket,
+                                      access_key=self.client_key,
                                       buffer_size=99)
         except Exception as e:
             self._logger.error("Failed to create streamer: {}".format(e))
