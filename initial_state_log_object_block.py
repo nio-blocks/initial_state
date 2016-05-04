@@ -12,11 +12,10 @@ class InitialStateLogObject(Block):
 
     """
 
-    client_key = StringProperty(title='Client Key',
-                                default='[[INITIAL_STATE_CLIENT_KEY]]')
-    bucket = StringProperty(title='Bucket', default='New Bucket')
-    object = ExpressionProperty(title='Object',
-                                default='{{ $.to_dict() }}')
+    access_key = StringProperty(title='Access Key', default='[[INITIAL_STATE_ACCESS_KEY]]')
+    bucket_name = StringProperty(title='Bucket Name', default='New Bucket')
+    bucket_key = StringProperty(title='Bucket Key', default='')
+    object = ExpressionProperty(title='Object', default='{{ $.to_dict() }}')
 
     def __init__(self):
         super().__init__()
@@ -25,9 +24,10 @@ class InitialStateLogObject(Block):
     def configure(self, context):
         super().configure(context)
         try:
-            self._streamer = Streamer(bucket_name=self.bucket,
-                                      access_key=self.client_key,
-                                      buffer_size=99)
+            if self.bucket_key:
+                self._streamer = Streamer(bucket_name=self.bucket_name, bucket_key=self.bucket_key, access_key=self.access_key, buffer_size=99)
+            else:
+                self._streamer = Streamer(bucket_name=self.bucket_name, access_key=self.access_key, buffer_size=99)
         except Exception as e:
             self._logger.error("Failed to create streamer: {}".format(e))
             raise e
