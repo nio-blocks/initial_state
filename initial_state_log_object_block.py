@@ -8,14 +8,13 @@ from ISStreamer.Streamer import Streamer
 class InitialStateLogObject(Block):
 
     """ Initial State block for logging objects
-
-
     """
 
     access_key = StringProperty(title='Access Key', default='[[INITIAL_STATE_ACCESS_KEY]]')
     bucket_name = StringProperty(title='Bucket Name', default='New Bucket')
     bucket_key = StringProperty(title='Bucket Key', default='')
     object = ExpressionProperty(title='Object', default='{{ $.to_dict() }}')
+    buffer_size = StringProperty(title='Buffer Size', default='10')
 
     def __init__(self):
         super().__init__()
@@ -24,10 +23,14 @@ class InitialStateLogObject(Block):
     def configure(self, context):
         super().configure(context)
         try:
+            kwargs = {'access_key': access_key, 'object': object}
+            if self.bucket_name:
+                kwargs['bucket_name'] = bucket_name
             if self.bucket_key:
-                self._streamer = Streamer(bucket_name=self.bucket_name, bucket_key=self.bucket_key, access_key=self.access_key, buffer_size=99)
-            else:
-                self._streamer = Streamer(bucket_name=self.bucket_name, access_key=self.access_key, buffer_size=99)
+                kwargs['bucket_key'] = bucket_key
+            if buffer_size:
+                kwargs['buffer_size'] = int(buffer_size)
+            self._streamer = Streamer(**kwargs)
         except Exception as e:
             self._logger.error("Failed to create streamer: {}".format(e))
             raise e
