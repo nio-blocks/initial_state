@@ -23,13 +23,13 @@ class InitialStateLogObject(Block):
     def configure(self, context):
         super().configure(context)
         try:
-            kwargs = {'access_key': access_key, 'object': object}
+            kwargs = {'access_key': self.access_key}
             if self.bucket_name:
-                kwargs['bucket_name'] = bucket_name
+                kwargs['bucket_name'] = self.bucket_name
             if self.bucket_key:
-                kwargs['bucket_key'] = bucket_key
+                kwargs['bucket_key'] = self.bucket_key
             if self.buffer_size:
-                kwargs['buffer_size'] = buffer_size
+                kwargs['buffer_size'] = self.buffer_size
             self._streamer = Streamer(**kwargs)
         except Exception as e:
             self._logger.error("Failed to create streamer: {}".format(e))
