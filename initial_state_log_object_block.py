@@ -1,5 +1,5 @@
 from nio.common.block.base import Block
-from nio.metadata.properties import ExpressionProperty, StringProperty
+from nio.metadata.properties import ExpressionProperty, StringProperty, IntProperty
 from nio.common.discovery import Discoverable, DiscoverableType
 from ISStreamer.Streamer import Streamer
 
@@ -14,7 +14,7 @@ class InitialStateLogObject(Block):
     bucket_name = StringProperty(title='Bucket Name', default='New Bucket')
     bucket_key = StringProperty(title='Bucket Key', default='')
     object = ExpressionProperty(title='Object', default='{{ $.to_dict() }}')
-    buffer_size = StringProperty(title='Buffer Size', default='10')
+    buffer_size = IntProperty(title='Buffer Size', default=10)
 
     def __init__(self):
         super().__init__()
@@ -28,8 +28,8 @@ class InitialStateLogObject(Block):
                 kwargs['bucket_name'] = bucket_name
             if self.bucket_key:
                 kwargs['bucket_key'] = bucket_key
-            if buffer_size:
-                kwargs['buffer_size'] = int(buffer_size)
+            if self.buffer_size:
+                kwargs['buffer_size'] = buffer_size
             self._streamer = Streamer(**kwargs)
         except Exception as e:
             self._logger.error("Failed to create streamer: {}".format(e))
