@@ -32,8 +32,11 @@ class TestInitialStateLogObject(NIOBlockTestCase):
             # configure block and process signals
             blk = InitialStateLogObject()
             self.configure_block(blk, {
-                'bucket': 'my bucket',
-                'client_key': 'key',
+                'bucket_name': 'my bucket',
+                'bucket_key': 'bucket key',
+                'access_key': 'key',
+                'buffer_size': 10,
+                'object': '{{ $.to_dict() }}',
                 'signal_prefix': 'sig'
             })
             blk.start()
@@ -57,8 +60,11 @@ class TestInitialStateLogObject(NIOBlockTestCase):
             # configure block and process signals
             blk = InitialStateLogObject()
             self.configure_block(blk, {
-                'bucket': 'my bucket',
-                'client_key': 'key',
+                'bucket_name': 'my bucket',
+                'bucket_key': 'bucket key',
+                'access_key': 'key',
+                'buffer_size': 10,
+                'object': '{{ $.to_dict() }}',
                 'signal_prefix': 'sig'
             })
             blk._logger.warning = MagicMock()

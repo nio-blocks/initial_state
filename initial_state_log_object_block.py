@@ -1,5 +1,5 @@
 from nio.common.block.base import Block
-from nio.metadata.properties import ExpressionProperty, StringProperty
+from nio.metadata.properties import ExpressionProperty, StringProperty, IntProperty
 from nio.common.discovery import Discoverable, DiscoverableType
 from ISStreamer.Streamer import Streamer
 
@@ -8,15 +8,13 @@ from ISStreamer.Streamer import Streamer
 class InitialStateLogObject(Block):
 
     """ Initial State block for logging objects
-
-
     """
 
-    client_key = StringProperty(title='Client Key',
-                                default='[[INITIAL_STATE_CLIENT_KEY]]')
-    bucket = StringProperty(title='Bucket', default='New Bucket')
-    object = ExpressionProperty(title='Object',
-                                default='{{ $.to_dict() }}')
+    access_key = StringProperty(title='Access Key', default='[[INITIAL_STATE_ACCESS_KEY]]')
+    bucket_name = StringProperty(title='Bucket Name', default='New Bucket')
+    bucket_key = StringProperty(title='Bucket Key', default='')
+    object = ExpressionProperty(title='Object', default='{{ $.to_dict() }}')
+    buffer_size = IntProperty(title='Buffer Size', default=10)
 
     def __init__(self):
         super().__init__()
@@ -25,9 +23,14 @@ class InitialStateLogObject(Block):
     def configure(self, context):
         super().configure(context)
         try:
-            self._streamer = Streamer(bucket_name=self.bucket,
-                                      access_key=self.client_key,
-                                      buffer_size=99)
+            kwargs = {'access_key': self.access_key}
+            if self.bucket_name:
+                kwargs['bucket_name'] = self.bucket_name
+            if self.bucket_key:
+                kwargs['bucket_key'] = self.bucket_key
+            if self.buffer_size:
+                kwargs['buffer_size'] = self.buffer_size
+            self._streamer = Streamer(**kwargs)
         except Exception as e:
             self._logger.error("Failed to create streamer: {}".format(e))
             raise e
