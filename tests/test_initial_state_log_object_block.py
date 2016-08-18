@@ -1,8 +1,8 @@
 from ..initial_state_log_object_block import InitialStateLogObject
-from nio.util.support.block_test_case import NIOBlockTestCase
-from nio.common.signal.base import Signal
+from nio.testing.block_test_case import NIOBlockTestCase
+from nio.signal.base import Signal
 from unittest.mock import patch, MagicMock
-from nio.modules.threading import Event
+from threading import Event
 
 
 class MockStreamer():
@@ -67,12 +67,12 @@ class TestInitialStateLogObject(NIOBlockTestCase):
                 'object': '{{ $.to_dict() }}',
                 'signal_prefix': 'sig'
             })
-            blk._logger.warning = MagicMock()
+            blk.logger.warning = MagicMock()
             blk.start()
             signals = [Signal({'sig': 'signal1'}),
                        Signal({'sig': 'signal2'})]
             blk.process_signals(signals)
             blk.stop()
             # assertions
-            blk._logger.warning.assert_called_with(
+            blk.logger.warning.assert_called_with(
                 'Failed to log object: boooo')
