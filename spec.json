@@ -1,10 +1,45 @@
 {
   "nio/InitialStateLogObject": {
     "version": "0.0.1",
-    "description": "",
-    "inputs": {},
+    "description": "Logs signals to Initial State bucket.",
+    "properties": {
+      "access_key": {
+        "title": "Access Key",
+        "type": "StringType",
+        "description": "Access key for Initial State Stream.",
+        "default": "[[INITIAL_STATE_ACCESS_KEY]]"
+      },
+      "bucket_key": {
+        "title": "Bucket Key",
+        "type": "StringType",
+        "description": "Bucket key for Initial State Stream bucket.",
+        "default": ""
+      },
+      "bucket_name": {
+        "title": "Bucket Name",
+        "type": "StringType",
+        "description": "Name of Initial State Stream bucket.",
+        "default": "New Bucket"
+      },
+      "buffer_size": {
+        "title": "Buffer Size",
+        "type": "IntType",
+        "description": "How many signals to log into bucket.",
+        "default": 10
+      },
+      "object": {
+        "title": "Object",
+        "type": "Type",
+        "description": "Object to be logged into Initial State Stream bucket.",
+        "default": "{{ $.to_dict() }}"
+      }
+    },
+    "inputs": {
+      "default": {
+        "description": "Any list of signals."
+      }
+    },
     "outputs": {},
-    "properties": {},
     "commands": {}
   }
 }
