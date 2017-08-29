@@ -1,16 +1,18 @@
-from nio.block.base import Block
-from nio.properties import Property, StringProperty, IntProperty
-from nio.util.discovery import discoverable
+from nio import TerminatorBlock
+from nio.properties import Property, StringProperty, IntProperty, \
+    VersionProperty
+
 from ISStreamer.Streamer import Streamer
 
 
-@discoverable
-class InitialStateLogObject(Block):
+class InitialStateLogObject(TerminatorBlock):
 
     """ Initial State block for logging objects
     """
 
-    access_key = StringProperty(title='Access Key', default='[[INITIAL_STATE_ACCESS_KEY]]')
+    version = VersionProperty('0.0.1')
+    access_key = StringProperty(
+        title='Access Key', default='[[INITIAL_STATE_ACCESS_KEY]]')
     bucket_name = StringProperty(title='Bucket Name', default='New Bucket')
     bucket_key = StringProperty(title='Bucket Key', default='')
     object = Property(title='Object', default='{{ $.to_dict() }}')
