@@ -10,7 +10,7 @@ class InitialStateLogObject(TerminatorBlock):
     """ Initial State block for logging objects
     """
 
-    version = VersionProperty('0.0.1')
+    version = VersionProperty("1.0.0")
     access_key = StringProperty(
         title='Access Key', default='[[INITIAL_STATE_ACCESS_KEY]]')
     bucket_name = StringProperty(title='Bucket Name', default='New Bucket')

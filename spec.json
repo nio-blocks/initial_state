@@ -1,6 +1,6 @@
 {
   "nio/InitialStateLogObject": {
-    "version": "0.0.1",
+    "version": "1.0.0",
     "description": "Logs signals to Initial State bucket.",
     "properties": {
       "access_key": {
