@@ -2,6 +2,9 @@
   "nio/InitialStateLogObject": {
     "version": "1.0.0",
     "description": "Logs signals to Initial State bucket.",
+    "categories": [
+      "Web Data"
+    ],
     "properties": {
       "access_key": {
         "title": "Access Key",
